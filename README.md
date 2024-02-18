@@ -1,2 +1,2 @@
 # BlueChips-Algorithms
-Wharton Data Science Competitoin
+Wharton Data Science Competition
