@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from collections import defaultdict
 
-with open('/Users/nchen26/Code/kitchen/datascience/NSL_Regular_Season_Data.csv', newline='') as rsrd:
+with open('/Users/nchen26/kitchen/BlueChips-Algorithms/NSL_Regular_Season_Data.csv', newline='') as rsrd:
     reader = csv.reader(rsrd)
     rsd = list(reader)
 
@@ -58,7 +58,7 @@ totalGoals = [rspd[i].tg for i in rsppd]
 totalGoalsAgainst = [(rspd[i].tgaa+rspd[i].tgah) for i in rsppd]
 avgPosession = [rspd[i].tp/rspd[i].mp for i in rsppd]
 avgxG = [rspd[i].txg/rspd[i].mp for i in rsppd]
-score = [rspd[i].score for i in rsppd]
+
 # plt.plot(totalGoals, label='Average Goals')
 # plt.plot(totalGoalsAgainst, label='Average Goals Against')
 # plt.bar(rsppd, score, label="Score")
@@ -67,16 +67,19 @@ score = [rspd[i].score for i in rsppd]
 # # elo = [(rspd[i].tg-rspd[i].tga+rspd[i].txg)/rspd[i].mp for i in rsppd]
 # plt.plot(score, label='score')
 # plt.plot(elo, label='elo')
-barWidth = 0.3
+barWidth = 0.2
 br1 = np.arange(len(rsppd)) 
 br2 = [x + barWidth for x in br1] 
 br3 = [x + barWidth for x in br2] 
+br4 = [x + barWidth for x in br3]
+score = [rspd[i].score for i in rsppd] 
 W = [rspd[i].r[0] for i in rsppd]
 T = [rspd[i].r[1] for i in rsppd]
 L = [rspd[i].r[2] for i in rsppd]
-plt.bar(br1, W, color ='b', width = barWidth, edgecolor ='grey', label ='W') 
-plt.bar(br2, T, color ='g', width = barWidth, edgecolor ='grey', label ='T') 
-plt.bar(br3, L, color ='r', width = barWidth, edgecolor ='grey', label ='L') 
+plt.plot(br1, score, color='purple', marker='o', linestyle='-', linewidth=2, markersize=8, label='Score')
+plt.bar(br2, W, color ='b', width = barWidth, edgecolor ='grey', label ='W') 
+plt.bar(br3, T, color ='g', width = barWidth, edgecolor ='grey', label ='T') 
+plt.bar(br4, L, color ='r', width = barWidth, edgecolor ='grey', label ='L') 
 plt.xlabel('Rank')  
 plt.ylabel('Values')
 plt.xticks([r+barWidth for r in range(len(rsppd))], rsppd)
