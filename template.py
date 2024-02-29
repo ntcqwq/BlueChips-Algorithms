@@ -9,6 +9,8 @@ with open(file_path, newline='') as rsrd:
     reader = csv.reader(rsrd)
     rsd = list(reader)
 
+
+# OOP
 names = rsd.pop(0)
 class team:
     def __init__(self, score=0, mpa=0, mph=0, tg=0, tgaa=0, tgah=0, tp=0, txg=0, mp=0, shots=0, tgc=0, shotsc=0):
@@ -71,15 +73,38 @@ avgPosession = [rspd[i].tp/rspd[i].mp for i in rsppd]
 avgxG = [rspd[i].txg/rspd[i].mp for i in rsppd]
 STGconversion = [rspd[i].tg/rspd[i].shots for i in rsppd]
 
+"Total Goals"
+
 # plt.bar(rsppd, totalGoals, label='Total Goals')
+
+"Total Goals Against"
+
 # plt.plot(totalGoalsAgainst, label='Average Goals Against')
+
+"Total Score (3 * Wins + Ties)"
+
 # plt.bar(rsppd, score, label="Score")
+
+"Average Time of Possession"
+
 # plt.bar(rsppd, avgPosession, label='Average Time of Possession')
+
+"Shots to Goals conversion"
+
 # plt.bar(rsppd, STGconversion, label='Shot to goals conversion')
+
+"Average xG"
+
 # plt.plot(avgxG, label='Average xG')
-# # elo = [(rspd[i].tg-rspd[i].tga+rspd[i].txg)/rspd[i].mp for i in rsppd]
+
+"Rating System (not finished)"
+
+# elo = [(rspd[i].tg-rspd[i].tga+rspd[i].txg)/rspd[i].mp for i in rsppd]
 # plt.plot(score, label='score')
 # plt.plot(elo, label='elo')
+
+"Team WTL"
+
 # barWidth = 0.2
 # br1 = np.arange(len(rsppd)) 
 # br2 = [x + barWidth for x in br1] 
@@ -93,8 +118,11 @@ STGconversion = [rspd[i].tg/rspd[i].shots for i in rsppd]
 # plt.bar(br2, W, color ='b', width = barWidth, edgecolor ='grey', label ='W') 
 # plt.bar(br3, T, color ='g', width = barWidth, edgecolor ='grey', label ='T') 
 # plt.bar(br4, L, color ='r', width = barWidth, edgecolor ='grey', label ='L') 
+# plt.xticks([r+barWidth for r in range(len(rsppd))], rsppd)
+
+"Labels"
+
 plt.xlabel('Rank')  
 plt.ylabel('Values')
-# plt.xticks([r+barWidth for r in range(len(rsppd))], rsppd)
 plt.legend()
 plt.show()
