@@ -286,7 +286,7 @@ def writeResults():
         return (l[x]-min(l))/(max(l)-min(l))
     with open('/Users/nchen26/kitchen/BlueChips-Algorithms/results.csv', 'w', newline='') as csvfile:
         spamwriter = csv.writer(csvfile)
-        f_names = ['totalGoals', 'totalGoalsH', 'totalGoalsA', 'totalGoalsC', 'totalGoalsCH','totalGoalsCA', 'totalPossession', 'totalPossessionH', 'totalPossessionA', 'totalxG', 'totalxGH', 'totalxGA', 'totalxGC', 'totalxGCH', 'totalxGCA', 'StGConversion', 'StGConversionH', 'StGConversionA', 'shotQuality', 'shotQualityH', 'shotQualityA', 'efficiency', 'efficiencyH', 'efficiencyA', 'qualityP', 'qualityPH', 'qualityPA', 'defQuality', 'defQualityH', 'defQualityA', 'score', 'scoreH', 'scoreA', 'shotsConceded', 'shotsConcededH', 'shotsConcededA', 'W', 'T', 'L', 'W_h', 'T_h', 'L_h', 'W_a', 'T_a', 'L_a', 'goalDifferential', 'goalDifferentialH', 'goalDifferentialA']
+        f_names = ['team', 'totalGoals', 'totalGoalsH', 'totalGoalsA', 'totalGoalsC', 'totalGoalsCH','totalGoalsCA', 'totalPossession', 'totalPossessionH', 'totalPossessionA', 'totalxG', 'totalxGH', 'totalxGA', 'totalxGC', 'totalxGCH', 'totalxGCA', 'StGConversion', 'StGConversionH', 'StGConversionA', 'shotQuality', 'shotQualityH', 'shotQualityA', 'efficiency', 'efficiencyH', 'efficiencyA', 'qualityP', 'qualityPH', 'qualityPA', 'defQuality', 'defQualityH', 'defQualityA', 'score', 'scoreH', 'scoreA', 'shotsConceded', 'shotsConcededH', 'shotsConcededA', 'W', 'T', 'L', 'W_h', 'T_h', 'L_h', 'W_a', 'T_a', 'L_a', 'goalDifferential', 'goalDifferentialH', 'goalDifferentialA']
         spamwriter.writerow(f_names)
         for i in enumerate(rsppd):
             j = i[0]
