@@ -12,7 +12,7 @@ with open(file_path, newline='') as rsrd:
 # OOP
 names = rsd.pop(0)
 class team:
-    def __init__(self, score=0, mpa=0, mph=0, tg=0, tgaa=0, tgah=0, tp=0, txg=0, mp=0, shots=0, tgc=0, shotsc=0, corners=0):
+    def __init__(self, score=0, mpa=0, mph=0, tg=0, tgaa=0, tgah=0, tp=0, txg=0, mp=0, shots=0, tgc=0, shotsc=0, corners=0, pens=0, txga=0):
         self.score = score 
         self.mpa = mpa # match played away
         self.mph = mph # match played home
@@ -27,6 +27,8 @@ class team:
         self.tgc = tgc # total goals conceded
         self.r = [0,0,0] # WTL
         self.corners = corners
+        self.pens = pens
+        self.txga = txga
 
 rspd = defaultdict(team)
 for r in rsd:
@@ -62,23 +64,29 @@ for r in rsd:
     rspd[AwayTeam].tp += 1-float(Home_ToP)
     rspd[HomeTeam].txg += float(Home_xG)
     rspd[AwayTeam].txg += float(Away_xG)
+    rspd[HomeTeam].txga += float(Away_xG)
+    rspd[AwayTeam].txga += float(Home_xG)
     rspd[HomeTeam].shots += float(Home_shots)
     rspd[AwayTeam].shots += float(Away_shots)
     rspd[HomeTeam].shotsc += float(Away_shots)
     rspd[AwayTeam].shotsc += float(Home_shots)
     rspd[HomeTeam].mp += 1
     rspd[AwayTeam].mp += 1
+    rspd[HomeTeam].pens += float(Home_PK_shots)
+    rspd[AwayTeam].pens += float(Away_PK_shots)
 
 rsppd = sorted(rspd, key=lambda x: rspd[x].score, reverse=True)
 totalGoals = [rspd[i].tg for i in rsppd]
 totalGoalsAgainst = [(rspd[i].tgaa+rspd[i].tgah) for i in rsppd]
 avgPosession = [rspd[i].tp/rspd[i].mp for i in rsppd]
 avgxG = [rspd[i].txg/rspd[i].mp for i in rsppd]
+avgxGa = [rspd[i].txga/rspd[i].mp for i in rsppd]
 STGconversion = [rspd[i].tg/rspd[i].shots for i in rsppd]
-shotQuality = [rspd[i].txg/rspd[i].shots for i in rsppd]
-efficiency = [rspd[i].txg/rspd[i].tg for i in rsppd]
+shotQuality = [(rspd[i].txg-rspd[i].pens*0.78)/rspd[i].shots for i in rsppd]
+efficiency = [(rspd[i].txg-rspd[i].pens*0.78)/rspd[i].tg for i in rsppd]
 qualityP = [(rspd[i].corners+rspd[i].shots)/rspd[i].tp for i in rsppd]
-defQuality = [rspd[i].tgc/rspd[i].shotsc for i in rsppd]
+defQuality = [rspd[i].txga/rspd[i].shotsc for i in rsppd]
+shotsconceded = [rspd[i].shotsc for i in rsppd]
 
 # All of the graphs are ranked by score.
 
@@ -133,7 +141,11 @@ defQuality = [rspd[i].tgc/rspd[i].shotsc for i in rsppd]
 
 "-. Average xG"
 
-# plt.plot(avgxG, label='Average xG')
+# plt.bar(rsppd, avgxG, label='Average xG')
+
+"-. Average xG against"
+
+# plt.bar(rsppd, avgxGa, label='Average xG against')
 
 #----Defense----
 
@@ -143,15 +155,25 @@ defQuality = [rspd[i].tgc/rspd[i].shotsc for i in rsppd]
 
 "10. Total Goals Against"
 
-plt.bar(rsppd, totalGoalsAgainst, label='Total Goals Against')
+# plt.bar(rsppd, totalGoalsAgainst, label='Total Goals Against')
+
+
+"-. Total Shots Conceded"
+
+# plt.bar(rsppd, shotsconceded, label='Shots Conceded')
+
+"-. Total Goals Conceded"
+
+# plt.bar(rsppd, totalGoalsAgainst, label='Goals Conceded')
 
 # ----Rankings----
 
 "-. Rating System (not finished)"
 
-# elo = [(rspd[i].tg-rspd[i].tga+rspd[i].txg)/rspd[i].mp for i in rsppd]
-# plt.plot(score, label='score')
-# plt.plot(elo, label='elo')
+elo = [(rspd[i].txg-rspd[i].txga) for i in rsppd]
+score2 = [rspd[i].r[0]-rspd[i].r[2] for i in rsppd]
+plt.bar(rsppd, elo, label='elo')
+plt.plot(score2, label='score')
 
 10101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010
 # Labels
@@ -160,3 +182,4 @@ plt.xlabel('Rank')
 plt.ylabel('Values')
 plt.legend()
 plt.show()
+
