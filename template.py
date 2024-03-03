@@ -87,6 +87,11 @@ efficiency = [(rspd[i].txg-rspd[i].pens*0.78)/rspd[i].tg for i in rsppd]
 qualityP = [(rspd[i].corners+rspd[i].shots)/rspd[i].tp for i in rsppd]
 defQuality = [rspd[i].txga/rspd[i].shotsc for i in rsppd]
 shotsconceded = [rspd[i].shotsc for i in rsppd]
+score = [rspd[i].score for i in rsppd] 
+W = [rspd[i].r[0] for i in rsppd]
+T = [rspd[i].r[1] for i in rsppd]
+L = [rspd[i].r[2] for i in rsppd]
+goalDifferential = [(rspd[i].tg-rspd[i].tgc) for i in rsppd]
 
 # All of the graphs are ranked by score.
 
@@ -103,10 +108,6 @@ shotsconceded = [rspd[i].shotsc for i in rsppd]
 # br2 = [x + barWidth for x in br1] 
 # br3 = [x + barWidth for x in br2] 
 # br4 = [x + barWidth for x in br3]
-# score = [rspd[i].score for i in rsppd] 
-# W = [rspd[i].r[0] for i in rsppd]
-# T = [rspd[i].r[1] for i in rsppd]
-# L = [rspd[i].r[2] for i in rsppd]
 # plt.plot(br1, score, color='purple', marker='o', linestyle='-', linewidth=2, markersize=8, label='Score')
 # plt.bar(br2, W, color ='b', width = barWidth, edgecolor ='grey', label ='W') 
 # plt.bar(br3, T, color ='g', width = barWidth, edgecolor ='grey', label ='T') 
@@ -162,24 +163,33 @@ shotsconceded = [rspd[i].shotsc for i in rsppd]
 
 # plt.bar(rsppd, shotsconceded, label='Shots Conceded')
 
-"-. Total Goals Conceded"
-
-# plt.bar(rsppd, totalGoalsAgainst, label='Goals Conceded')
 
 # ----Rankings----
 
 "-. Rating System (not finished)"
 
-elo = [(rspd[i].txg-rspd[i].txga) for i in rsppd]
-score2 = [rspd[i].r[0]-rspd[i].r[2] for i in rsppd]
-plt.bar(rsppd, elo, label='elo')
-plt.plot(score2, label='score')
+# elo = [(rspd[i].totalGoals-rspd[i].totalGoalsAgainst) for i in rsppd]
+# score2 = [rspd[i].r[0]-rspd[i].r[2] for i in rsppd]
+# plt.bar(rsppd, elo, label='elo')
+# plt.plot(score2, label='score')
 
 10101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010
 # Labels
 
-plt.xlabel('Rank')  
-plt.ylabel('Values')
-plt.legend()
-plt.show()
+# plt.xlabel('Rank')  
+# plt.ylabel('Values')
+# plt.legend()
+# plt.show()
 
+def n(x, l):
+    return (l[x]-min(l))/(max(l)-min(l))
+
+def writeResults():
+    with open('/Users/nchen26/kitchen/BlueChips-Algorithms/results.csv', 'w', newline='') as csvfile:
+        spamwriter = csv.writer(csvfile)
+        spamwriter.writerow(['team', 'score', 'wins', 'ties', 'losses', 'shotQuality', 'efficiency', 'shotsToGoalsConversion', 'qualityOfPossession', 'totalGoalsFor', 'avgTimePossession', 'avgxG', 'avgxGagainst', 'defEfficiency', 'totalGoalsAgainst', 'totalShotsAgainst', 'goalDifferential'])
+        for i in enumerate(rsppd):
+            j = i[0]
+            spamwriter.writerow([i[1], n(j, score), n(j, W), n(j, T), n(j, L), n(j, shotQuality), n(j, efficiency), n(j, STGconversion), n(j, qualityP), n(j, totalGoals), n(j, avgPosession), n(j, avgxG), n(j, avgxGa), n(j, defQuality), n(j, totalGoalsAgainst), n(j, shotsconceded), n(j, goalDifferential)])
+                                
+writeResults()
